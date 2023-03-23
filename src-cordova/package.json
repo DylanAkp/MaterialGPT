@@ -1,0 +1,27 @@
+{
+  "name": "dev.dylanakp.materialgpt",
+  "displayName": "MaterialGPT",
+  "version": "1.0.0",
+  "description": "GPT Api Client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "DylanAkp",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "cordova-android": "^10.1.2",
+    "cordova-plugin-statusbar": "^3.0.0"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-statusbar": {}
+    }
+  }
+}
