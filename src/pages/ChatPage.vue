@@ -92,6 +92,10 @@ export default defineComponent({
         this.message = "";
         this.$refs.messagebox.value = "";
         await this.generateAnswer(this.request);
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
       }
     },
   },
@@ -195,6 +199,8 @@ export default defineComponent({
 }
 
 .placeholder {
+  padding-left: 20px;
+  padding-right: 20px;
   display: flex;
   flex-direction: row;
   align-content: center;
