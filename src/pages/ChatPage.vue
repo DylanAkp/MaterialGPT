@@ -1,6 +1,8 @@
+
 <script>
 import { defineComponent } from "vue";
 import axios from "axios";
+import LoadingDots from "src/components/LoadingDots.vue";
 
 export default defineComponent({
   mounted() {
@@ -13,6 +15,7 @@ export default defineComponent({
   },
   data() {
     return {
+      loading: false,
       chatname: "",
       message: "",
       messages: [],
@@ -20,8 +23,12 @@ export default defineComponent({
       request: "",
     };
   },
+  components: {
+    LoadingDots,
+  },
   methods: {
     async generateAnswer(message) {
+      this.loading = true;
       const api_key = localStorage.getItem(`api_key`);
       try {
         const messages = this.messages.map((message) => {
@@ -48,7 +55,7 @@ export default defineComponent({
             },
           }
         );
-
+        this.loading = false;
         this.messageId++;
         this.messages.push({
           id: this.messageId,
@@ -113,6 +120,7 @@ export default defineComponent({
   </div>
 
   <div class="sendmessage">
+    <LoadingDots v-if="this.loading" class="loading"></LoadingDots>
     <input
       ref="messagebox"
       v-model="message"
@@ -132,6 +140,11 @@ export default defineComponent({
 </template>
 
 <style scoped>
+
+.loading {
+  position: fixed;
+  bottom: 35px;
+}
 .chat {
   padding-top: 50px;
   padding-bottom: 60px;
@@ -164,25 +177,34 @@ export default defineComponent({
 .send-btn {
   background-color: #242f33;
   color: #b0d5e8;
-  bottom: 10px;
   right: 10px;
+}
+
+.sendmessage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #1a1c1e;
+  width: 100vw;
+  bottom:0px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   position: fixed;
 }
+
 .placeholder {
   display: flex;
   flex-direction: row;
   align-content: center;
   border-radius: 25px;
-  height: 45px;
   width: 80%;
   overflow: hidden !important;
   outline: none;
-  padding-left: 10px;
   color: white;
   border-width: 0px !important;
   background-color: #242f33;
-  position: fixed;
-  bottom: 10px;
   left: 10px;
 }
 
@@ -198,4 +220,5 @@ export default defineComponent({
   top: 0;
   left: 0;
 }
+
 </style>
