@@ -28,6 +28,10 @@ export default {
     };
   },
   methods: {
+    onDeleteChat (chatname) {
+      this.chats = this.chats.filter((chat) => chat !== chatname);
+      localStorage.setItem("chats", JSON.stringify(this.chats));
+    },
     onAdd() {
       if (this.name === "") {
         return;
@@ -44,7 +48,7 @@ export default {
 <template>
   <TitleBar></TitleBar>
   <div v-for="chatname in chats" :key="chatname" class="chats">
-    <ChatButton :chatname="chatname"></ChatButton>
+    <ChatButton :chatname="chatname" @delete="onDeleteChat"> <div>Hello</div> </ChatButton>
   </div>
   <AddChatButton class="button" @click="addChat = true" />
   <div v-if="addChat">

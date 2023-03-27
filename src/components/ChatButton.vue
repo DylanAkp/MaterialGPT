@@ -1,3 +1,4 @@
+
 <script>
 import { defineComponent } from "vue";
 
@@ -11,18 +12,31 @@ export default defineComponent({
     onChat() {
       this.$router.push({ path: "/chat", query: { chatname: this.chatname }});
     },
+    onDelete() {
+      this.$emit("delete", this.chatname);
+    },
   },
 });
 </script>
 
 <template>
-  <div class="box" @click="onChat()">
+  <div  class="box">
+    <div class="box" @click="onChat()">
     <div class="icon"></div>
     <div class="name">{{ chatname }}</div>
+    </div>
+    <q-icon name="delete" size="x-large" class="delete-button" @click="onDelete"></q-icon>
   </div>
 </template>
 
 <style scoped>
+
+.delete-button {
+  color: #601e1e;
+  height: 45px;
+  width: 45px;
+  margin: 20px;
+}
 .name {
   font-size: large;
 }
