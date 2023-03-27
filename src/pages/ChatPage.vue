@@ -44,6 +44,7 @@ export default defineComponent({
     async generateAnswer(message) {
       this.loading = true;
       const api_key = localStorage.getItem(`api_key`);
+      this.messages = this.messages.filter((message) => message.role !== "application");
       try {
         const messages =
         this.messages.map((message) => {
@@ -82,8 +83,8 @@ export default defineComponent({
         this.messageId++;
         this.messages.push({
           id: this.messageId,
-          role: "assistant",
-          content: "I'm sorry, it seems like I'm having some trouble reaching OpenAI servers. Please try again later.",
+          role: "application",
+          content: "Not sent",
         });
         localStorage.setItem(
           `messages-${this.chatname}`,
@@ -149,6 +150,7 @@ export default defineComponent({
         {{ message.content }}
       </div>
       <div v-if="message.role == 'assistant'" class="message openai">{{ message.content }}</div>
+      <div v-if="message.role == 'application'" class="application">{{ message.content }}</div>
     </div>
   </div>
 
@@ -212,6 +214,19 @@ export default defineComponent({
   padding: 10px;
   border-radius: 20px;
   color: white;
+}
+
+.application {
+  align-self: flex-end;
+  margin-right: 10px;
+  color: #800b32;
+  background-color: #00000000;
+}
+
+.model {
+  align-self: center;
+  color: grey;
+  background-color: #00000000;
 }
 
 .openai {
