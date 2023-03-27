@@ -66,9 +66,18 @@ export default defineComponent({
           `messages-${this.chatname}`,
           JSON.stringify(this.messages)
         );
-        this.messageId++;
       } catch (error) {
-        console.log(error);
+        this.loading = false;
+        this.messageId++;
+        this.messages.push({
+          id: this.messageId,
+          role: "assistant",
+          content: "I'm sorry, it seems like I'm having some trouble reaching OpenAI servers. Please try again later.",
+        });
+        localStorage.setItem(
+          `messages-${this.chatname}`,
+          JSON.stringify(this.messages)
+        );
       }
     },
 
