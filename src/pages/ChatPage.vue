@@ -80,7 +80,9 @@ export default defineComponent({
         );
       }
     },
-
+    onLongPress(content) {
+      navigator.clipboard.writeText(content);
+    },
     onBack() {
       this.$router.push("/");
     },
@@ -128,7 +130,7 @@ export default defineComponent({
       <div v-if="message.role === 'user'" class="message">
         {{ message.content }}
       </div>
-      <div v-else class="message openai">{{ message.content }}</div>
+      <div @click="onLongPress(message.content)" v-else class="message openai">{{ message.content }}</div>
     </div>
   </div>
 
