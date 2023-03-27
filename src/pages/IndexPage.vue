@@ -2,9 +2,12 @@
 import ChatButton from "src/components/ChatButton.vue";
 import TitleBar from "src/components/TitleBar.vue";
 import AddChatButton from "src/components/AddChatButton.vue";
+import UpdateButton from "src/components/UpdateButton.vue";
+import axios from 'axios';
+import { openURL } from 'quasar';
 
 export default {
-  mounted() {
+  async mounted() {
     const apikey = localStorage.getItem(`api_key`);
     if (apikey === null) {
       this.$router.push({ path: "/setup" });
@@ -13,11 +16,13 @@ export default {
     if (chats) {
       this.chats = JSON.parse(chats);
     }
+    await this.checkForUpdates();
   },
   components: {
     ChatButton,
     TitleBar,
     AddChatButton,
+    UpdateButton,
   },
   data() {
     return {
@@ -25,12 +30,16 @@ export default {
       addChat: false,
       chatname: "",
       name: "",
+      update: false,
     };
   },
   methods: {
     onDeleteChat (chatname) {
       this.chats = this.chats.filter((chat) => chat !== chatname);
       localStorage.setItem("chats", JSON.stringify(this.chats));
+    },
+    onUpdate() {
+      openURL("https://github.com/DylanAkp/MaterialGPT/releases/latest");
     },
     onAdd() {
       if (this.name === "") {
@@ -41,7 +50,39 @@ export default {
       localStorage.setItem("chats", JSON.stringify(this.chats));
       this.name = "";
     },
-  },
+    compareVersions(v1, v2) {
+      const v1Parts = v1.split('.').map(Number);
+      const v2Parts = v2.split('.').map(Number);
+
+      for (let i = 0; i < v1Parts.length; i++) {
+          if (v1Parts[i] > v2Parts[i]) {
+            return 1;
+          } else if (v1Parts[i] < v2Parts[i]) {
+            return -1;
+          }
+      }
+      return 0;
+    },
+    async checkForUpdates() {
+      try {
+        const response = await axios.get(
+          'https://api.github.com/repos/DylanAkp/MaterialGPT/releases'
+        );
+        const releases = response.data;
+        if (releases && releases.length > 0) {
+          const currentVersion = '1.1';
+          const latestRelease = releases[0];
+          const latestVersion = latestRelease.tag_name
+          if (this.compareVersions(latestVersion, currentVersion) > 0) {
+            this.update = true;
+          }
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
+    },
+  }
 };
 </script>
 
@@ -51,6 +92,7 @@ export default {
     <ChatButton :chatname="chatname" @delete="onDeleteChat"> <div>Hello</div> </ChatButton>
   </div>
   <AddChatButton class="button" @click="addChat = true" />
+  <UpdateButton v-if="update" class="update" @click="onUpdate()"/>
   <div v-if="addChat">
     <q-dialog v-model="addChat" no-share="true" transition-show="slide-up">
       <div class="addchat">
@@ -105,6 +147,12 @@ export default {
   align-items: center;
   height: 250px;
   width: 95%;
+}
+
+.update {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
 }
 
 .button {
