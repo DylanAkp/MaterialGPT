@@ -22,7 +22,9 @@ export default defineComponent({
 <template>
   <div  class="box">
     <div class="box" @click="onChat()">
-    <div class="icon"></div>
+    <div class="icon">
+      <q-icon name="smart_toy" size="x-large" />
+    </div>
     <div class="name">{{ chatname }}</div>
     </div>
     <q-icon name="delete" size="x-large" class="delete-button" @click="onDelete"></q-icon>
@@ -41,7 +43,11 @@ export default defineComponent({
   font-size: large;
 }
 .icon {
-  background-color: #ffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e4c60;
+  color: #b0d5e8;
   border-radius: 50%;
   height: 45px;
   width: 45px;
