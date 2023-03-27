@@ -37,6 +37,7 @@ export default {
     onDeleteChat (chatname) {
       this.chats = this.chats.filter((chat) => chat !== chatname);
       localStorage.setItem("chats", JSON.stringify(this.chats));
+      localStorage.removeItem(`messages-${chatname}`);
     },
     onUpdate() {
       openURL("https://github.com/DylanAkp/MaterialGPT/releases/latest");
