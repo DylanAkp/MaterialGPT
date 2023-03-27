@@ -31,7 +31,7 @@ export default defineComponent({
     <input
       ref="apibox"
       v-model="apikey"
-      placeholder="API Key"
+      placeholder="Open API Key"
       class="placeholder"
     />
     <div>

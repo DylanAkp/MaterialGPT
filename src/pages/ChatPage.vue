@@ -15,6 +15,12 @@ export default defineComponent({
     const messages = localStorage.getItem(`messages-${chatname}`);
     if (messages) {
       this.messages = JSON.parse(messages);
+    } else {
+      this.messages.push({
+          id: this.messageId,
+          role: "system",
+          content: "Your name is now MaterialGPT.",
+        });
     }
   },
 
@@ -39,15 +45,12 @@ export default defineComponent({
       this.loading = true;
       const api_key = localStorage.getItem(`api_key`);
       try {
-        const messages = this.messages.map((message) => {
+        const messages =
+        this.messages.map((message) => {
           return {
             role: message.role,
             content: message.content,
           };
-        });
-        messages.push({
-          role: "user",
-          content: message,
         });
 
         const response = await axios.post(
@@ -145,7 +148,7 @@ export default defineComponent({
       <div v-if="message.role === 'user'" class="message">
         {{ message.content }}
       </div>
-      <div v-else class="message openai">{{ message.content }}</div>
+      <div v-if="message.role == 'assistant'" class="message openai">{{ message.content }}</div>
     </div>
   </div>
 
