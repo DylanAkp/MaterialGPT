@@ -1,11 +1,15 @@
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import axios from "axios";
 import LoadingDots from "src/components/LoadingDots.vue";
 
 export default defineComponent({
   mounted() {
+    this.model = localStorage.getItem(`model`);
+    if (this.model === null) {
+      this.model = 'gpt-3.5-turbo';
+    }
     const chatname = this.$route.query.chatname;
     this.chatname = chatname;
     const messages = localStorage.getItem(`messages-${chatname}`);
@@ -13,6 +17,7 @@ export default defineComponent({
       this.messages = JSON.parse(messages);
     }
   },
+
   data() {
     return {
       loading: false,
@@ -21,11 +26,14 @@ export default defineComponent({
       messages: [],
       messageId: 1,
       request: "",
+      model: "",
     };
   },
+
   components: {
     LoadingDots,
   },
+
   methods: {
     async generateAnswer(message) {
       this.loading = true;
@@ -45,7 +53,7 @@ export default defineComponent({
         const response = await axios.post(
           "https://api.openai.com/v1/chat/completions",
           {
-            model: "gpt-3.5-turbo",
+            model: this.model,
             messages: messages,
           },
           {
@@ -79,6 +87,15 @@ export default defineComponent({
           JSON.stringify(this.messages)
         );
       }
+    },
+    setModel() {
+      console.log(this.model);
+      if (this.model == "gpt-3.5-turbo") {
+        this.model = "gpt-4";
+      } else {
+        this.model = "gpt-3.5-turbo";
+      }
+      localStorage.setItem(`model`, this.model);
     },
     onBack() {
       this.$router.push("/");
@@ -122,6 +139,7 @@ export default defineComponent({
     <div>{{ this.chatname }}</div>
   </div>
 
+
   <div class="chat">
     <div v-for="message in messages" :key="message.id" class="messages">
       <div v-if="message.role === 'user'" class="message">
@@ -131,15 +149,22 @@ export default defineComponent({
     </div>
   </div>
 
+
   <div class="sendmessage">
     <LoadingDots v-if="this.loading" class="loading"></LoadingDots>
+    <q-btn class="model-btn" @click="setModel()"
+    round
+      flat
+      color="#242f33"
+      size="15px"
+      icon="psychology"/>
     <input
       ref="messagebox"
       v-model="message"
-      placeholder="Message"
+      :placeholder="'Message with ' + this.model"
       class="placeholder"
     />
-    <q-btn
+    <q-btn v-if="!this.loading"
       icon="send"
       round
       flat
@@ -147,6 +172,14 @@ export default defineComponent({
       size="15px"
       class="send-btn"
       @click="onSend"
+    />
+    <q-btn v-else
+      icon="pending"
+      round
+      flat
+      color="#242f33"
+      size="15px"
+      class="send-btn"
     />
   </div>
 </template>
@@ -186,18 +219,21 @@ export default defineComponent({
   color: white;
 }
 
+.model-btn {
+  background-color: #242f33;
+  color: #b0d5e8;
+  left: 5px;
+}
+
 .send-btn {
   background-color: #242f33;
   color: #b0d5e8;
-  right: 10px;
+  right: 5px;
 }
 
 .sendmessage {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  padding-left: 10px;
-  padding-right: 10px;
   background-color: #1a1c1e;
   width: 100vw;
   bottom:0px;
@@ -213,13 +249,14 @@ export default defineComponent({
   flex-direction: row;
   align-content: center;
   border-radius: 25px;
-  width: 80%;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 100%;
   overflow: hidden !important;
   outline: none;
   color: white;
   border-width: 0px !important;
   background-color: #242f33;
-  left: 10px;
 }
 
 .titlebar {
