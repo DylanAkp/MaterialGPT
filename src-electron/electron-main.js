@@ -40,6 +40,15 @@ function createWindow() {
 
 function createTrayIcon() {
   tray = new Tray(path.join(__dirname, '/icons/icon.png'))
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit()
+      }
+    }
+  ])
+  tray.setContextMenu(contextMenu)
 
   tray.on('click', () => {
     toggleWindow()
