@@ -11,7 +11,7 @@ export default {
   <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </template>
 
-<style>
+<style scoped>
 .lds-ellipsis {
   display: inline-block;
   position: relative;

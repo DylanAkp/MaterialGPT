@@ -62,7 +62,7 @@ export default defineComponent({
     </div>
 </template>
 
-<style>
+<style scoped>
 
 .clearbtn {
   left: 20px !important;
