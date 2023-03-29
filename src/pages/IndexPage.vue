@@ -96,10 +96,10 @@ export default {
 
 <template>
   <TitleBar></TitleBar>
-  <ImageButton class="image-btn" v-if="this.showImage"></ImageButton>
-  <div v-for="chatname in chats" :key="chatname" class="chats">
-    <ChatButton :chatname="chatname" @delete="onDeleteChat"></ChatButton>
-  </div>
+    <ImageButton class="chats" v-if="this.showImage"></ImageButton>
+    <div class="chats" v-for="chatname in chats" :key="chatname">
+      <ChatButton :chatname="chatname" @delete="onDeleteChat"></ChatButton>
+    </div>
   <AddChatButton class="button" @click="addChat = true" />
   <UpdateButton v-if="update" class="update" @click="onUpdate()"/>
   <div v-if="addChat">
@@ -131,11 +131,6 @@ export default {
 </template>
 
 <style scoped>
-
-.image-btn {
-  display: flex;
-  align-self: center;
-}
 
 .bottom-btn {
   display: flex;

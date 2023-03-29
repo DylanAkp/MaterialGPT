@@ -23,9 +23,11 @@ export default defineComponent({
       this.$router.push({ path: "/" });
     },
     ClearChats() {
+      const image = localStorage.getItem("image");
       const api = localStorage.getItem("api_key");
       localStorage.clear();
       localStorage.setItem("api_key", api);
+      localStorage.setItem("image", image);
       this.$router.push({ path: "/" });
     },
   },
