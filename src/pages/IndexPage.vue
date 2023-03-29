@@ -3,12 +3,17 @@ import ChatButton from "src/components/ChatButton.vue";
 import TitleBar from "src/components/TitleBar.vue";
 import AddChatButton from "src/components/AddChatButton.vue";
 import UpdateButton from "src/components/UpdateButton.vue";
+import ImageButton from "src/components/ImageButton.vue";
 import axios from 'axios';
 import { openURL } from 'quasar';
 
 export default {
   async mounted() {
     const apikey = localStorage.getItem(`api_key`);
+    const showImage = localStorage.getItem(`image`);
+    if (showImage) {
+      this.showImage = showImage === "true";
+    }
     if (apikey === null) {
       this.$router.push({ path: "/setup" });
     }
@@ -23,9 +28,11 @@ export default {
     TitleBar,
     AddChatButton,
     UpdateButton,
+    ImageButton,
   },
   data() {
     return {
+      showImage: "",
       chats: [],
       addChat: false,
       chatname: "",
@@ -42,7 +49,7 @@ export default {
     onUpdate() {
       openURL("https://github.com/DylanAkp/MaterialGPT/releases/latest");
     },
-    onAdd() {
+    onAddChat() {
       if (this.name === "") {
         return;
       }
@@ -89,8 +96,9 @@ export default {
 
 <template>
   <TitleBar></TitleBar>
+  <ImageButton class="image-btn" v-if="this.showImage"></ImageButton>
   <div v-for="chatname in chats" :key="chatname" class="chats">
-    <ChatButton :chatname="chatname" @delete="onDeleteChat"> <div>Hello</div> </ChatButton>
+    <ChatButton :chatname="chatname" @delete="onDeleteChat"></ChatButton>
   </div>
   <AddChatButton class="button" @click="addChat = true" />
   <UpdateButton v-if="update" class="update" @click="onUpdate()"/>
@@ -104,6 +112,7 @@ export default {
           placeholder="Enter the chat name"
           class="placeholder"
         />
+        <div class="bottom-btn">
         <q-btn
           v-close-popup
           icon="add"
@@ -112,16 +121,42 @@ export default {
           color="#242f33"
           size="15px"
           class="add-btn"
-          @click="onAdd()"
-        />
+          @click="onAddChat()">
+          chat
+        </q-btn>
+      </div>
       </div>
     </q-dialog>
   </div>
 </template>
 
-<style>
+<style scoped>
+
+.image-btn {
+  display: flex;
+  align-self: center;
+}
+
+.bottom-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-top: 20px;
+  width: 100%;
+}
+
 .add-btn {
-  margin: 20px;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #1e4c60;
+  border-radius: 15px;
+  height: 55px;
+  width: 165px;
+  color: #b0d5e8;
 }
 
 .placeholder {

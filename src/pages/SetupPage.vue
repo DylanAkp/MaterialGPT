@@ -1,20 +1,28 @@
 <script>
 import { defineComponent } from "vue";
+import { ref } from "vue";
 
 export default defineComponent({
   name: "SetupPage",
   data() {
+    const imageref = localStorage.getItem("image");
+    if (imageref === null) {
+      localStorage.setItem("image", "true");
+    }
     return {
       apikey: "",
+      image: ref(imageref === "true"),
     };
   },
   methods: {
     SaveApi() {
-      localStorage.setItem("api_key", this.apikey);
+      if (this.apikey != "") {
+        localStorage.setItem("api_key", this.apikey);
+      }
+      localStorage.setItem("image", this.image);
       this.$router.push({ path: "/" });
     },
     ClearChats() {
-      console.log("clear");
       const api = localStorage.getItem("api_key");
       localStorage.clear();
       localStorage.setItem("api_key", api);
@@ -34,11 +42,15 @@ export default defineComponent({
       placeholder="Open API Key"
       class="placeholder"
     />
-    <div>
-      <div class="button" @click="SaveApi()">
+    <q-toggle v-if="this.$route.query.settings"
+        v-model="image"
+        label="Show Image Generation"
+        left-label
+      />
+    <div class="button" @click="SaveApi()">
         <q-icon name="save" size="23px" />
         Save settings
-      </div>
+    </div>
     </div>
     <div v-if="this.$route.query.settings">
       <div class="button clearbtn" @click="ClearChats()">
@@ -46,10 +58,10 @@ export default defineComponent({
         Clear Conversations
       </div>
     </div>
-  </div>
 </template>
 
 <style>
+
 .clearbtn {
   left: 20px !important;
   background-color: #601e1e !important;

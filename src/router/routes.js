@@ -9,6 +9,10 @@ const routes = [
     component: () => import("pages/ChatPage.vue"),
   },
   {
+    path: "/image",
+    component: () => import("pages/ImagePage.vue"),
+  },
+  {
     path: "/setup",
     component: () => import("pages/SetupPage.vue"),
   },
