@@ -19,7 +19,7 @@ export default defineComponent({
       this.messages.push({
           id: this.messageId,
           role: "system",
-          content: "Your name is now MaterialGPT.",
+          content: "Your name is MaterialGPT",
         });
     }
   },
@@ -152,11 +152,13 @@ export default defineComponent({
       <div v-if="message.role == 'assistant'" class="message openai">{{ message.content }}</div>
       <div v-if="message.role == 'application'" class="application">{{ message.content }}</div>
     </div>
+    <div v-if="this.loading" class="loading">
+      <LoadingDots v-if="this.loading"></LoadingDots>
+    </div>
   </div>
 
 
   <div class="sendmessage">
-    <LoadingDots v-if="this.loading" class="loading"></LoadingDots>
     <q-btn class="model-btn" @click="setModel()"
     round
       flat
@@ -192,8 +194,7 @@ export default defineComponent({
 <style scoped>
 
 .loading {
-  position: fixed;
-  bottom: 35px;
+  align-self: flex-start;
 }
 .chat {
   padding-top: 50px;
@@ -203,6 +204,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
+
 .message {
   align-self: flex-end;
   width: fit-content;

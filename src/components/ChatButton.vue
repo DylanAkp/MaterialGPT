@@ -23,7 +23,7 @@ export default defineComponent({
   <div  class="box">
     <div class="box" @click="onChat()">
     <div class="icon">
-      <q-icon name="smart_toy" size="x-large" />
+      <q-icon name="smart_toy" size="xx-large" />
     </div>
     <div class="name">{{ chatname }}</div>
     </div>

@@ -122,7 +122,7 @@ export default defineComponent({
         {{ message.content }}
       </div>
       <div v-if="message.role == 'assistant'" class="message openai">
-        <img class="img" :src="message.content" style="max-width: 256px; max-height: 256px;"/>
+        <Suspense><img class="img" :src="message.content" style="max-width: 256px; max-height: 256px;"/></Suspense>
       </div>
       <div v-if="message.role == 'assistant'" class="message openai">
         <div class="button" @click="onDownload(message.content)">

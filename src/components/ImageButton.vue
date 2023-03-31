@@ -15,7 +15,7 @@ export default defineComponent({
   <div class="box">
     <div class="box" @click="onChat()">
     <div class="icon">
-      <q-icon name="image" size="x-large" />
+      <q-icon name="image" size="xx-large" />
     </div>
     <div class="name">Image Generation</div>
     </div>
