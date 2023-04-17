@@ -15,6 +15,10 @@ export default defineComponent({
     };
   },
   methods: {
+    SwitchImage() {
+      this.image = !this.image;
+      localStorage.setItem("image", this.image);
+    },
     SaveApi() {
       if (this.apikey != "") {
         localStorage.setItem("api_key", this.apikey);
@@ -44,29 +48,48 @@ export default defineComponent({
       placeholder="Open API Key"
       class="placeholder"
     />
-    <q-toggle v-if="this.$route.query.settings"
-        v-model="image"
-        label="Show Image Generation"
-        left-label
-      />
-    <div class="button" @click="SaveApi()">
-        <q-icon name="save" size="23px" />
-        Save settings
+  </div>
+  <div class="buttons">
+    <div v-if="this.$route.query.settings">
+    <div class="button set" @click="SwitchImage()">
+      <q-icon name="image" size="23px" />
+      {{ this.image ? "Image generation (Shown)" : "Image generation (Hidden)" }}
     </div>
     </div>
     <div v-if="this.$route.query.settings">
-      <div class="button clearbtn" @click="ClearChats()">
+      <div class="button set clear" @click="ClearChats()">
         <q-icon name="delete" size="23px" />
         Clear Conversations
       </div>
     </div>
+  </div>
+  <div class="button" @click="SaveApi()">
+    <q-icon name="save" size="23px" />
+    Save settings
+  </div>
 </template>
 
 <style scoped>
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-.clearbtn {
-  left: 20px !important;
+.clear {
   background-color: #601e1e !important;
+}
+
+.set {
+  position: relative !important;
+  width: fit-content !important;
+  padding-right: 10px !important;
+  padding-left: 10px !important;;
+  margin-top: 20px;
+  right: 0px !important;
+  bottom: 0px !important;
 }
 
 .button {
