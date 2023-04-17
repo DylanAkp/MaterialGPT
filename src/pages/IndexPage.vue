@@ -97,10 +97,10 @@ export default {
 <template>
   <TitleBar></TitleBar>
     <ImageButton class="chats" v-if="this.showImage"></ImageButton>
-    <div class="chats" v-for="chatname in chats" :key="chatname">
-      <ChatButton :chatname="chatname" @delete="onDeleteChat"></ChatButton>
+    <div class="chats no-select-text" v-for="chatname in chats" :key="chatname">
+      <ChatButton class="no-select-text pointer" :chatname="chatname" @delete="onDeleteChat"></ChatButton>
     </div>
-  <AddChatButton class="button" @click="addChat = true" />
+  <AddChatButton class="button no-select-text pointer" @click="addChat = true" />
   <UpdateButton v-if="update" class="update" @click="onUpdate()"/>
   <div v-if="addChat">
     <q-dialog v-model="addChat" no-share="true" transition-show="slide-up">
@@ -112,7 +112,7 @@ export default {
           placeholder="Enter the chat name"
           class="placeholder"
         />
-        <div class="bottom-btn">
+        <div class="bottom-btn no-select-test pointer">
         <q-btn
           v-close-popup
           icon="add"
@@ -132,6 +132,19 @@ export default {
 
 <style scoped>
 
+.pointer {
+  cursor: pointer;
+}
+
+.no-select-text {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .bottom-btn {
   display: flex;
   flex-direction: row;
@@ -142,7 +155,6 @@ export default {
 }
 
 .add-btn {
-  user-select: none;
   display: flex;
   flex-direction: row;
   align-items: center;

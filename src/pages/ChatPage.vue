@@ -2,7 +2,6 @@
 <script>
 import { defineComponent, ref } from "vue";
 import axios from "axios";
-import LoadingDots from "src/components/LoadingDots.vue";
 
 export default defineComponent({
   mounted() {
@@ -34,10 +33,6 @@ export default defineComponent({
       request: "",
       model: "",
     };
-  },
-
-  components: {
-    LoadingDots,
   },
 
   methods: {
@@ -139,8 +134,9 @@ export default defineComponent({
       name="arrow_back"
       color="white"
       size="24px"
+      class="no-select pointer"
     ></q-icon>
-    <div>{{ this.chatname }}</div>
+    <div class="no-select">{{ this.chatname }}</div>
   </div>
 
 
@@ -149,12 +145,10 @@ export default defineComponent({
       <div v-if="message.role === 'user'" class="message">
         {{ message.content }}
       </div>
-      <div v-if="message.role == 'assistant'" class="message openai">{{ message.content }}</div>
-      <div v-if="message.role == 'application'" class="application">{{ message.content }}</div>
+      <div v-if="message.role == 'assistant'" class="message openai no-select">{{ message.content }}</div>
+      <div v-if="message.role == 'application'" class="application no-select">{{ message.content }}</div>
     </div>
-    <div v-if="this.loading" class="loading">
-      <LoadingDots v-if="this.loading"></LoadingDots>
-    </div>
+    <div v-if="this.loading" class="message openai writing">MaterialGPT is writing...</div>
   </div>
 
 
@@ -168,7 +162,7 @@ export default defineComponent({
     <input
       ref="messagebox"
       v-model="message"
-      :placeholder="'Message with ' + this.model"
+      :placeholder="'Using ' + this.model"
       class="placeholder"
     />
     <q-btn v-if="!this.loading"
@@ -192,10 +186,22 @@ export default defineComponent({
 </template>
 
 <style scoped>
-
-.loading {
-  align-self: flex-start;
+.writing {
+  font-style: italic;
 }
+.pointer {
+  cursor: pointer;
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .chat {
   padding-top: 50px;
   padding-bottom: 60px;
