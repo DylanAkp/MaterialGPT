@@ -18,7 +18,7 @@ export default defineComponent({
 <template>
   <div class="titlebar">
     <div>MaterialGPT</div>
-    <q-icon name="settings" size="24px" @click="Setup()" />
+    <q-icon class="pointer" name="settings" size="24px" @click="Setup()" />
   </div>
 </template>
 

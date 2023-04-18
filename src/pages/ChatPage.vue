@@ -189,18 +189,6 @@ export default defineComponent({
 .writing {
   font-style: italic;
 }
-.pointer {
-  cursor: pointer;
-}
-
-.no-select {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
 
 .chat {
   padding-top: 50px;

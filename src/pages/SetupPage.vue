@@ -1,40 +1,44 @@
 <script>
+import MaterialButton from "src/components/MaterialButton.vue";
 import { defineComponent } from "vue";
 import { ref } from "vue";
 
 export default defineComponent({
-  name: "SetupPage",
-  data() {
-    const imageref = localStorage.getItem("image");
-    if (imageref === null) {
-      localStorage.setItem("image", "true");
-    }
-    return {
-      apikey: "",
-      image: ref(imageref === "true"),
-    };
-  },
-  methods: {
-    SwitchImage() {
-      this.image = !this.image;
-      localStorage.setItem("image", this.image);
+    name: "SetupPage",
+    data() {
+        const imageref = localStorage.getItem("image");
+        if (imageref === null) {
+            localStorage.setItem("image", "true");
+        }
+        return {
+            apikey: "",
+            image: ref(imageref === "true"),
+        };
     },
-    SaveApi() {
-      if (this.apikey != "") {
-        localStorage.setItem("api_key", this.apikey);
-      }
-      localStorage.setItem("image", this.image);
-      this.$router.push({ path: "/" });
+    methods: {
+        SwitchImage() {
+            this.image = !this.image;
+            localStorage.setItem("image", this.image);
+        },
+        SaveApi() {
+            if (this.apikey != "") {
+                localStorage.setItem("api_key", this.apikey);
+            }
+            localStorage.setItem("image", this.image);
+            this.$router.push({ path: "/" });
+        },
+        ClearChats() {
+            const image = localStorage.getItem("image");
+            const api = localStorage.getItem("api_key");
+            localStorage.clear();
+            localStorage.setItem("api_key", api);
+            localStorage.setItem("image", image);
+            this.$router.push({ path: "/" });
+        },
     },
-    ClearChats() {
-      const image = localStorage.getItem("image");
-      const api = localStorage.getItem("api_key");
-      localStorage.clear();
-      localStorage.setItem("api_key", api);
-      localStorage.setItem("image", image);
-      this.$router.push({ path: "/" });
+    components: {
+      MaterialButton,
     },
-  },
 });
 </script>
 
@@ -50,23 +54,17 @@ export default defineComponent({
     />
   </div>
   <div class="buttons">
-    <div v-if="this.$route.query.settings">
-    <div class="button set" @click="SwitchImage()">
-      <q-icon name="image" size="23px" />
-      {{ this.image ? "Image generation (Shown)" : "Image generation (Hidden)" }}
-    </div>
-    </div>
-    <div v-if="this.$route.query.settings">
-      <div class="button set clear" @click="ClearChats()">
-        <q-icon name="delete" size="23px" />
-        Clear Conversations
-      </div>
-    </div>
+    <MaterialButton v-if="this.$route.query.settings" @click="SwitchImage()" icon="image" :text="this.image ? 'Image generation (Shown)' : 'Image generation (Hidden)'" width="fit-content" />
+    <MaterialButton v-if="this.$route.query.settings"
+    icon="delete"
+    width="165px"
+    color="#601e1e"
+    textcolor="pink"
+    text="Clear Conversations"/>
   </div>
-  <div class="button" @click="SaveApi()">
-    <q-icon name="save" size="23px" />
-    Save settings
-  </div>
+
+
+  <MaterialButton class="bottom-right-btn" icon="save" text="Save settings" width="fit-content" @click="SaveApi()" />
 </template>
 
 <style scoped>
@@ -76,35 +74,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-}
-
-.clear {
-  background-color: #601e1e !important;
-}
-
-.set {
-  position: relative !important;
-  width: fit-content !important;
-  padding-right: 10px !important;
-  padding-left: 10px !important;;
-  margin-top: 20px;
-  right: 0px !important;
-  bottom: 0px !important;
-}
-
-.button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color: #1e4c60;
-  border-radius: 15px;
-  height: 55px;
-  width: 165px;
-  color: #b0d5e8;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  gap: 20px;
 }
 
 .q-placeholder {

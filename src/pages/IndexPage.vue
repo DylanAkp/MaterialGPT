@@ -1,11 +1,10 @@
 <script>
 import ChatButton from "src/components/ChatButton.vue";
 import TitleBar from "src/components/TitleBar.vue";
-import AddChatButton from "src/components/AddChatButton.vue";
-import UpdateButton from "src/components/UpdateButton.vue";
 import ImageButton from "src/components/ImageButton.vue";
 import axios from 'axios';
 import { openURL } from 'quasar';
+import MaterialButton from "src/components/MaterialButton.vue";
 
 export default {
   async mounted() {
@@ -26,10 +25,9 @@ export default {
   components: {
     ChatButton,
     TitleBar,
-    AddChatButton,
-    UpdateButton,
     ImageButton,
-  },
+    MaterialButton
+},
   data() {
     return {
       showImage: "",
@@ -96,12 +94,12 @@ export default {
 
 <template>
   <TitleBar></TitleBar>
-    <ImageButton class="chats" v-if="this.showImage"></ImageButton>
+    <ImageButton class="chats no-select-text pointer" v-if="this.showImage"/>
     <div class="chats no-select-text" v-for="chatname in chats" :key="chatname">
-      <ChatButton class="no-select-text pointer" :chatname="chatname" @delete="onDeleteChat"></ChatButton>
+      <ChatButton class="no-select-text pointer" :chatname="chatname" @delete="onDeleteChat"/>
     </div>
-  <AddChatButton class="button no-select-text pointer" @click="addChat = true" />
-  <UpdateButton v-if="update" class="update" @click="onUpdate()"/>
+  <MaterialButton icon="edit" text="Start a new chat" class="bottom-right-btn" @click="addChat = true" />
+  <MaterialButton v-if="update" icon="upgrade" text="Update" color="#605d1e" textcolor="#d0c93e" class="update" @click="onUpdate"/>
   <div v-if="addChat">
     <q-dialog v-model="addChat" no-share="true" transition-show="slide-up">
       <div class="addchat">
@@ -132,19 +130,6 @@ export default {
 
 <style scoped>
 
-.pointer {
-  cursor: pointer;
-}
-
-.no-select-text {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .bottom-btn {
   display: flex;
   flex-direction: row;
@@ -152,18 +137,6 @@ export default {
   justify-content: space-evenly;
   padding-top: 20px;
   width: 100%;
-}
-
-.add-btn {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color: #1e4c60;
-  border-radius: 15px;
-  height: 55px;
-  width: 165px;
-  color: #b0d5e8;
 }
 
 .placeholder {
@@ -196,12 +169,6 @@ export default {
   position: fixed;
   bottom: 20px;
   left: 20px;
-}
-
-.button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
 }
 
 .chats {
