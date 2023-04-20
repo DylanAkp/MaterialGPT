@@ -1,9 +1,14 @@
-
 <script>
 import { defineComponent, ref } from "vue";
 import axios from "axios";
 
 export default defineComponent({
+  props : {
+    contained: {
+      type: Boolean,
+      default: false
+    }
+  },
   mounted() {
     this.model = localStorage.getItem(`model`);
     if (this.model === null) {
@@ -139,7 +144,6 @@ export default defineComponent({
     <div class="no-select">{{ this.chatname }}</div>
   </div>
 
-
   <div class="chat">
     <div v-for="message in messages" :key="message.id" class="messages">
       <div v-if="message.role === 'user'" class="message">
@@ -150,7 +154,6 @@ export default defineComponent({
     </div>
     <div v-if="this.loading" class="message openai writing">MaterialGPT is writing...</div>
   </div>
-
 
   <div class="sendmessage">
     <q-btn class="model-btn" @click="setModel()"
@@ -186,8 +189,22 @@ export default defineComponent({
 </template>
 
 <style scoped>
+
+
 .writing {
   font-style: italic;
+}
+.pointer {
+  cursor: pointer;
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .chat {
@@ -249,11 +266,11 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   background-color: #1a1c1e;
-  width: 100vw;
-  bottom:0px;
+  width: 100%;
+  bottom: 0px;
   padding-bottom: 10px;
   padding-top: 10px;
-  position: fixed;
+  position: absolute;
 }
 
 .placeholder {
@@ -275,15 +292,15 @@ export default defineComponent({
 
 .titlebar {
   display: flex;
+  min-width: none;
   font-size: large;
   flex-direction: row;
   align-items: center;
   background-color: #1a1c1ef9;
+  top: 0;
   height: 45px;
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: absolute;
 }
 
 </style>

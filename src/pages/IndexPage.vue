@@ -1,7 +1,6 @@
 <script>
 import ChatButton from "src/components/ChatButton.vue";
 import TitleBar from "src/components/TitleBar.vue";
-import ImageButton from "src/components/ImageButton.vue";
 import axios from 'axios';
 import { openURL } from 'quasar';
 import MaterialButton from "src/components/MaterialButton.vue";
@@ -25,7 +24,6 @@ export default {
   components: {
     ChatButton,
     TitleBar,
-    ImageButton,
     MaterialButton
 },
   data() {
@@ -52,9 +50,9 @@ export default {
         return;
       }
       this.chats.push(this.name);
-      console.log(this.name);
       localStorage.setItem("chats", JSON.stringify(this.chats));
       this.name = "";
+      this.addChat = false;
     },
     compareVersions(v1, v2) {
       const v1Parts = v1.split('.').map(Number);
@@ -93,42 +91,41 @@ export default {
 </script>
 
 <template>
-  <TitleBar></TitleBar>
-    <ImageButton class="chats no-select-text pointer" v-if="this.showImage"/>
+  <div class="index">
+    <TitleBar></TitleBar>
     <div class="chats no-select-text" v-for="chatname in chats" :key="chatname">
-      <ChatButton class="no-select-text pointer" :chatname="chatname" @delete="onDeleteChat"/>
+      <ChatButton class="no-select-text pointer tile" :chatname="chatname" :contained="contained" @delete="onDeleteChat"/>
     </div>
-  <MaterialButton icon="edit" text="Start a new chat" class="bottom-right-btn" @click="addChat = true" />
-  <MaterialButton v-if="update" icon="upgrade" text="Update" color="#605d1e" textcolor="#d0c93e" class="update" @click="onUpdate"/>
-  <div v-if="addChat">
-    <q-dialog v-model="addChat" no-share="true" transition-show="slide-up">
-      <div class="addchat">
-        <h5>Create a new chat</h5>
-        <input
-          ref="messagebox"
-          v-model="name"
-          placeholder="Enter the chat name"
-          class="placeholder"
-        />
-        <div class="bottom-btn no-select-test pointer">
-        <q-btn
-          v-close-popup
-          icon="add"
-          round
-          flat
-          color="#242f33"
-          size="15px"
-          class="add-btn"
-          @click="onAddChat()">
-          chat
-        </q-btn>
-      </div>
-      </div>
-    </q-dialog>
+    <MaterialButton icon="edit" text="Start a new chat" class="bottom-right-btn" @click="addChat = true" />
+    <MaterialButton v-if="update" icon="upgrade" text="Update" color="#605d1e" textcolor="#d0c93e" class="update" @click="onUpdate"/>
+    <div v-if="addChat">
+        <q-dialog v-model="addChat" no-share="true" transition-show="slide-up">
+          <div class="addchat">
+            <h5>Create a new chat</h5>
+            <input
+              ref="messagebox"
+              v-model="name"
+              placeholder="Enter the chat name"
+              class="placeholder"
+            />
+            <div class="bottom-btn no-select-test pointer">
+              <MaterialButton icon="add" text="Create" @click="onAddChat()" />
+            </div>
+          </div>
+        </q-dialog>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.index {
+  background-color: #2a2b2e;
+}
+
+.index:not(ChatButton, TitleBar) {
+  width: 100%;
+  height: 100vh;
+}
 
 .bottom-btn {
   display: flex;
@@ -175,7 +172,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: fit-content;
   width: 100%;
 }
 </style>

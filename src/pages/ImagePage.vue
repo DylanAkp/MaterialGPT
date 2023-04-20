@@ -2,7 +2,6 @@
 <script>
 import { defineComponent, ref } from "vue";
 import axios from "axios";
-import LoadingDots from "src/components/LoadingDots.vue";
 import { openURL } from 'quasar';
 
 export default defineComponent({
@@ -22,10 +21,6 @@ export default defineComponent({
       chatname: "",
       message: "",
     };
-  },
-
-  components: {
-    LoadingDots,
   },
 
   methods: {

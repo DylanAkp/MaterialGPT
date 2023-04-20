@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme, Tray, Menu, screen } from 'electron'
+import { app, BrowserWindow, nativeTheme, screen } from 'electron'
 import path from 'path'
 import os from 'os'
 
@@ -11,7 +11,6 @@ try {
 } catch (_) { }
 
 let mainWindow
-let tray
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -19,8 +18,7 @@ function createWindow() {
     width: 600,
     height: 1000,
     resizable: false,
-    frame: false,
-    show: false,
+    frame: true,
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
@@ -29,48 +27,10 @@ function createWindow() {
   })
 
   mainWindow.loadURL(process.env.APP_URL)
-  mainWindow.webContents.on('devtools-opened', () => {
-    mainWindow.webContents.closeDevTools()
-  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-}
-
-function createTrayIcon() {
-  tray = new Tray(path.join(__dirname, '/icons/icon.png'))
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Quit',
-      click: () => {
-        app.quit()
-      }
-    }
-  ])
-  tray.setContextMenu(contextMenu)
-
-  tray.on('click', () => {
-    toggleWindow()
-  })
-
-  tray.on('double-click', () => {
-    toggleWindow()
-  })
-
-  mainWindow.on('blur', () => {
-    if (!mainWindow.webContents.isDevToolsOpened()) {
-      mainWindow.hide()
-    }
-  })
-}
-
-function toggleWindow() {
-  if (mainWindow.isVisible()) {
-    mainWindow.hide()
-  } else {
-    showWindow()
-  }
 }
 
 function showWindow() {

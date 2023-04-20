@@ -30,6 +30,6 @@ export default defineComponent({
   justify-content: space-between;
   font-size: 4vh;
   font-weight: bold;
-  margin: 15px;
+  padding: 15px;
 }
 </style>
