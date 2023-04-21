@@ -20,6 +20,7 @@ function createWindow() {
     resizable: false,
     frame: true,
     useContentSize: true,
+    autoHideMenuBar: true,
     webPreferences: {
       contextIsolation: true,
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD)
