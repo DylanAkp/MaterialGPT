@@ -41,49 +41,6 @@ export default defineComponent({
   },
 
   methods: {
-    async generateFAnswer(message) {
-      this.loading = true;
-      try {
-        const response = await axios.post(
-          "http://materialgpt.dylanakp.dev/api",
-          {message: message},
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        let text = response.data.answer;
-        console.log(text);
-
-        this.loading = false;
-        this.messageId++;
-
-        this.messages.push({
-          id: this.messageId,
-          role: "assistant",
-          content: text,
-        });
-        localStorage.setItem(
-          `messages-${this.chatname}`,
-          JSON.stringify(this.messages)
-        );
-      } catch (error) {
-        console.log(error);
-        this.loading = false;
-        this.messageId++;
-        this.messages.push({
-          id: this.messageId,
-          role: "application",
-          content: "Not sent",
-        });
-        localStorage.setItem(
-          `messages-${this.chatname}`,
-          JSON.stringify(this.messages)
-        );
-      }
-    },
     async generateAnswer(message) {
       this.loading = true;
       const api_key = localStorage.getItem(`api_key`);
@@ -138,9 +95,9 @@ export default defineComponent({
     setModel() {
       console.log(this.model);
       if (this.model == "gpt-3.5-turbo") {
-        this.model = "materialgpt";
-      } else if (this.model == "materialgpt") {
         this.model = "gpt-4";
+      } else if (this.model == "gpt-4") {
+        this.model = "gpt-3.5-turbo";
       } else {
         this.model = "gpt-3.5-turbo";
       }
@@ -165,11 +122,7 @@ export default defineComponent({
         this.request = this.message;
         this.message = "";
         this.$refs.messagebox.value = "";
-        if (this.model == "materialgpt") {
-          await this.generateFAnswer(this.request);
-        } else {
-          await this.generateAnswer(this.request);
-        }
+        await this.generateAnswer(this.request);
         window.scrollTo({
           top: document.body.scrollHeight,
           behavior: "smooth"
