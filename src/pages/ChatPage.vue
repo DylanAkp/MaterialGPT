@@ -3,12 +3,6 @@ import { defineComponent, ref } from "vue";
 import axios from "axios";
 
 export default defineComponent({
-  props : {
-    contained: {
-      type: Boolean,
-      default: false
-    }
-  },
   mounted() {
     this.model = localStorage.getItem(`model`);
     if (this.model === null) {
@@ -272,7 +266,7 @@ export default defineComponent({
   bottom: 0px;
   padding-bottom: 10px;
   padding-top: 10px;
-  position: absolute;
+  position: fixed;
 }
 
 .placeholder {
@@ -302,7 +296,7 @@ export default defineComponent({
   top: 0;
   height: 45px;
   width: 100%;
-  position: absolute;
+  position: fixed;
 }
 
 </style>
