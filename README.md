@@ -9,7 +9,7 @@ It allows to use GPT-3.5-Turbo or even GPT-4 to be used without the ChatGPT Plus
 ## Installation
 
 Go to the release section and download the build for your device.
-You can also test MaterialGPT here : https://materialgpt.dylanakp.dev/
+You can also test MaterialGPT here : https://materialgpt.dylanakp.dev/ (deprecated)
 
 ## Usage
 
