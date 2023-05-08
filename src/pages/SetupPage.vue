@@ -6,20 +6,11 @@ import { ref } from "vue";
 export default defineComponent({
     name: "SetupPage",
     data() {
-        const imageref = localStorage.getItem("image");
-        if (imageref === null) {
-            localStorage.setItem("image", "true");
-        }
         return {
             apikey: "",
-            image: ref(imageref === "true"),
         };
     },
     methods: {
-        SwitchImage() {
-            this.image = !this.image;
-            localStorage.setItem("image", this.image);
-        },
         SaveApi() {
             if (this.apikey != "") {
                 localStorage.setItem("api_key", this.apikey);
@@ -54,7 +45,6 @@ export default defineComponent({
     />
   </div>
   <div class="buttons">
-    <MaterialButton v-if="this.$route.query.settings" @click="SwitchImage()" icon="image" :text="this.image ? 'Image generation (Shown)' : 'Image generation (Hidden)'" width="fit-content" />
     <MaterialButton v-if="this.$route.query.settings"
     icon="delete"
     width="165px"

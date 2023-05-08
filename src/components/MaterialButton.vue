@@ -8,7 +8,7 @@ name: "MaterialButton",
   props: {
     width: {
       type: String,
-      required: true,
+      required: false,
     },
     icon: {
       type: String,
@@ -32,7 +32,7 @@ name: "MaterialButton",
 
 <template>
   <div>
-    <div class="button no-user-select pointer" :style="{ backgroundColor: this.color, color: this.textcolor}">
+    <div class="button no-user-select pointer" :style="{ backgroundColor: this.color, color: this.textcolor }">
       <q-icon :name="this.icon" size="23px" :style="{ backgroundColor: this.color }" />
       {{ this.text }}
     </div>

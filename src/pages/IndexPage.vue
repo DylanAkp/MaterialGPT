@@ -8,10 +8,6 @@ import MaterialButton from "src/components/MaterialButton.vue";
 export default {
   async mounted() {
     const apikey = localStorage.getItem(`api_key`);
-    const showImage = localStorage.getItem(`image`);
-    if (showImage) {
-      this.showImage = showImage === "true";
-    }
     if (apikey === null) {
       this.$router.push({ path: "/setup" });
     }
@@ -94,7 +90,7 @@ export default {
   <div class="index">
     <TitleBar></TitleBar>
     <div class="chats no-select-text" v-for="chatname in chats" :key="chatname">
-      <ChatButton class="no-select-text pointer tile" :chatname="chatname" :contained="contained" @delete="onDeleteChat"/>
+      <ChatButton class="no-select-text pointer tile" :chatname="chatname" :sysprompt="sysprompt" @delete="onDeleteChat"/>
     </div>
     <MaterialButton icon="edit" text="Start a new chat" class="bottom-right-btn" @click="addChat = true" />
     <MaterialButton v-if="update" icon="upgrade" text="Update" color="#605d1e" textcolor="#d0c93e" class="update" @click="onUpdate"/>

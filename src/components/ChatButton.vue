@@ -7,10 +7,13 @@ export default defineComponent({
     chatname: {
       type: String,
     },
+    sysprompt: {
+      type: String,
+    },
   },
   methods: {
     onChat() {
-      this.$router.push({ path: "/chat", query: { chatname: this.chatname }});
+      this.$router.push({ path: "/chat", query: { chatname: this.chatname, sysprompt: this.sysprompt }});
     },
     onDelete() {
       this.$emit("delete", this.chatname);

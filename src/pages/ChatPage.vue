@@ -9,6 +9,10 @@ export default defineComponent({
       this.model = 'gpt-3.5-turbo';
     }
     const chatname = this.$route.query.chatname;
+    const sysprompt = this.$route.query.sysprompt;
+    if (sysprompt === undefined) {
+      sysprompt = "Your name is MaterialGPT, you're an helpful assistant";
+    }
     this.chatname = chatname;
     const messages = localStorage.getItem(`messages-${chatname}`);
     if (messages) {
@@ -17,7 +21,7 @@ export default defineComponent({
       this.messages.push({
           id: this.messageId,
           role: "system",
-          content: "Your name is MaterialGPT",
+          content: sysprompt,
         });
     }
   },
