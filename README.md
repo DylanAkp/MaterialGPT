@@ -4,8 +4,7 @@ It allows to use GPT-3.5-Turbo or even GPT-4 to be used without the ChatGPT Plus
 
 ## Screenshots
 
-![Alt Text](/readme_files/1.jpg "Screenshot 1")
-![Alt Text](/readme_files/2.png "Screenshot 2")
+![Alt Text](/readme_files/1.jpg "Screenshot of a discussion with GPT-4")
 
 ## Installation
 
