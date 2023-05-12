@@ -29,6 +29,7 @@ export default {
       addChat: false,
       chatname: "",
       name: "",
+      sysprompt: "",
       update: false,
     };
   },
@@ -47,7 +48,12 @@ export default {
       }
       this.chats.push(this.name);
       localStorage.setItem("chats", JSON.stringify(this.chats));
+      if (this.sysprompt === "") {
+        this.sysprompt = "Your name is MaterialGPT, you're an helpful assistant";
+      }
+      localStorage.setItem(`sysprompt-${this.name}`, this.sysprompt);
       this.name = "";
+      this.sysprompt = "";
       this.addChat = false;
     },
     compareVersions(v1, v2) {
@@ -104,7 +110,13 @@ export default {
               placeholder="Enter the chat name"
               class="placeholder"
             />
-            <div class="bottom-btn no-select-test pointer">
+            <input
+              ref="messagebox"
+              v-model="sysprompt"
+              placeholder="Enter the system prompt (optional)"
+              class="placeholder"
+            />
+            <div class="create-btn no-select-test pointer">
               <MaterialButton icon="add" text="Create" @click="onAddChat()" />
             </div>
           </div>
@@ -114,6 +126,9 @@ export default {
 </template>
 
 <style scoped>
+.create-btn {
+  margin: 20px;
+}
 .index {
   background-color: #2a2b2e;
 }
@@ -141,6 +156,8 @@ export default {
   overflow: hidden !important;
   outline: none;
   padding-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   color: white;
   border-width: 0px !important;
   background-color: #1a1c1e;
@@ -154,7 +171,6 @@ export default {
   border-radius: 30px !important;
   flex-direction: column;
   align-items: center;
-  height: 250px;
   width: 95%;
 }
 
