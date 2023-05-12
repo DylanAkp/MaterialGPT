@@ -76,7 +76,7 @@ export default {
         );
         const releases = response.data;
         if (releases && releases.length > 0) {
-          const currentVersion = '2.3.0';
+          const currentVersion = '2.4.0';
           const latestRelease = releases[0];
           const latestVersion = latestRelease.tag_name
           if (this.compareVersions(latestVersion, currentVersion) > 0) {
