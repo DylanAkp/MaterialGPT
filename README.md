@@ -17,3 +17,9 @@ Once you've installed the application, enter your openai api key
 https://platform.openai.com/account/api-keys
 
 (Don't forget to set a limit, https://platform.openai.com/account/billing/limits)
+
+## 🚀 Roadmap
+
+- Desktop mode
+- Free APIs from GPT4Free
+- Switch Cordova to Capacitor
